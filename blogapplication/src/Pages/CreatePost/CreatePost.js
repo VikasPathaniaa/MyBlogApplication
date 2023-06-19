@@ -64,30 +64,33 @@ const CreatePost = () => {
   });
   const [file, setFile] = useState("");
   const location = useLocation();
-  const category = location?.search.split("=")[1];
+  // const category = location?.search.split("=")[1];
   const { account } = useContext(DataContext);
 
   useEffect(() => {
     const getFile = async () => {
       if (file) {
         const data = new FormData();
-        data.append("name", file.name);
+        data.append("fileName", file.name);
         data.append("file", file);
         let response = await API.uploadFile(data);
-        postMessage.picture = await response.data;
+        console.log(response.data, "********");
+        blogData.picture = await response.data;
       }
     };
     getFile();
-    blogData.category = category;
+    blogData.category = location?.search.split("=")[1] || "All";
     blogData.userName = account.name;
-  }, [file]);
-  console.log(file);
+  }, [file, blogData]);
   //* below function for handle input fileds
   const handleData = (event) => {
     const { name, value } = event.target;
     setBlogData({ ...blogData, [name]: value });
   };
 
+  const fileHandle = (e) => {
+    setFile(e.target.files[0]);
+  };
   return (
     <Box>
       <SubContainer>
@@ -104,7 +107,7 @@ const CreatePost = () => {
             id="inputFile"
             style={{ display: "none" }}
             name="blogImage"
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={fileHandle}
           />
           <StyledInput
             placeholder="Tittle"

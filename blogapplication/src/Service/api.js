@@ -8,6 +8,7 @@ const axiosInstance = axios.create({
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
+    "Content-Type": "multipart/form-data",
   },
 });
 
@@ -73,7 +74,7 @@ const processError = (error) => {
 const API = {};
 
 for (const [key, value] of Object.entries(serviceUrl)) {
-  API[key] = (body, showuploadprogress,showdownloadprogress) =>
+  API[key] = (body, showuploadprogress, showdownloadprogress) =>
     axiosInstance({
       method: value.method,
       url: value.url,
