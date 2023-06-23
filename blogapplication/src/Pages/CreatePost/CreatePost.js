@@ -8,7 +8,7 @@ import {
   TextareaAutosize,
 } from "@mui/material";
 import { AddCircle as Add } from "@mui/icons-material";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { DataContext } from "../../Context/DataProvider";
 import { API } from "../../Service/api";
 const Image = styled("img")({
@@ -64,9 +64,11 @@ const CreatePost = () => {
   });
   const [file, setFile] = useState("");
   const location = useLocation();
+  const navigate = useNavigate();
   // const category = location?.search.split("=")[1];
   const { account } = useContext(DataContext);
-
+  const url = blogData?.picture ? blogData?.picture : "/assets/addBlogImg.jpeg";
+  console.log(blogData);
   useEffect(() => {
     const getFile = async () => {
       if (file) {
@@ -81,7 +83,8 @@ const CreatePost = () => {
     getFile();
     blogData.category = location?.search.split("=")[1] || "All";
     blogData.userName = account.name;
-  }, [file, blogData]);
+  }, [file, blogData, url]);
+
   //* below function for handle input fileds
   const handleData = (event) => {
     const { name, value } = event.target;
@@ -91,13 +94,17 @@ const CreatePost = () => {
   const fileHandle = (e) => {
     setFile(e.target.files[0]);
   };
+
+  const postSubmit = async () => {
+    const response = await API.postBlog(blogData);
+    if (response.success) {
+      navigate("/");
+    }
+  };
   return (
     <Box>
       <SubContainer>
-        <Image
-          src={blogData.picture ? blogData.picture : "/assets/addBlogImg.jpeg"}
-          alt="Banner"
-        />
+        <Image src={url} alt="Banner" />
         <StyledForm>
           <label htmlFor="inputFile">
             <Add fontSize="large" color="action" />
@@ -114,7 +121,7 @@ const CreatePost = () => {
             name="title"
             onChange={handleData}
           />
-          <StyledButton> POST </StyledButton>
+          <StyledButton onClick={postSubmit}> POST </StyledButton>
         </StyledForm>
         <TextArea
           placeholder="Tell your story "

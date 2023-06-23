@@ -25,4 +25,5 @@ export const serviceUrl = {
   userSignup: { url: "/signup", method: "POST" },
   userLogin: { url: "/login", method: "POST" },
   uploadFile: { url: "/file/upload", method: "POST" },
+  postBlog: { url: "/createpost", method: "POST" },
 };

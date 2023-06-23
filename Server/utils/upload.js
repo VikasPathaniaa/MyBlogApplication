@@ -12,11 +12,11 @@ const storage = new GridFsStorage({
   file: (request, file) => {
     let match = ["image/jpg", "image/jpeg"];
     if (match.indexOf(file.memeType === -1)) {
-      return `${Date.now()}-Blog-${file.originalname}`;
+      return `${Date.now()}-blog-${file.originalname}`;
     }
     return {
       bucketname: "photos",
-      fileName: `${Date.now()}-Blog-${file.originalname}`,
+      fileName: `${Date.now()}-blog-${file.originalname}`,
     };
   },
 });

@@ -55,7 +55,7 @@ const Image = styled("img")({
 
 //* Component Start from here 
 const Login = () => {
-  const [toggle, setloginToggle] = useState(true);
+  const [form, setForm] = useState("login");
   const [signupFields, setSignupFields] = useState({
     name: "",
     email: "",
@@ -74,8 +74,11 @@ const Login = () => {
   const navigate = useNavigate();
 
   // function for back to  login screen
+  const signUpHandle = () => {
+    setForm("SignUp");
+  };
   const loginHandel = () => {
-    setloginToggle(!toggle);
+    setForm("login");
   };
 
   // function for Signup input onchange handel
@@ -98,7 +101,7 @@ const Login = () => {
         email: "",
         password: "",
       });
-      setloginToggle(true);
+      setForm("login");
       seterror("");
     } else {
       seterror("something is wrong please try again later");
@@ -120,10 +123,10 @@ const Login = () => {
   const loginUser = async () => {
     let response = await API.userLogin(loginFields);
     if (response.isSuccess) {
-      localStorage.setItem("accessToken", `Bearer${response.data.accessToken}`);
+      localStorage.setItem("accessToken", `Bearer ${response.data.accessToken}`);
       localStorage.setItem(
         "refreshToken",
-        `Bearer${response.data.accessToken}`
+        `Bearer ${response.data.accessToken}`
       );
       setAccount({ email: response.data.email, name: response.data.name });
       navigate("/");
@@ -137,7 +140,7 @@ const Login = () => {
     <Container>
       <Image src={logo} alt="logo is not found"></Image>
 
-      {toggle ? (
+      {form == "login" &&  (
         <Box>
           <Inputfield
             changeHandel={handleLoginChange}
@@ -156,11 +159,13 @@ const Login = () => {
           {error && <Error>{error}</Error>}
           <Loginbtn onClick={loginUser}> Login </Loginbtn>
           <Typography> or </Typography>
-          <SignupButton onClick={loginHandel}>
+          <SignupButton onClick={signUpHandle}>
             Don't have an account Sign up
           </SignupButton>
         </Box>
-      ) : (
+      ) }
+      {
+        form == "SignUp" &&  (
         <Box>
           <Inputfield
             placeholder="enter your name"

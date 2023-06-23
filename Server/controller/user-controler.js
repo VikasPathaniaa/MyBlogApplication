@@ -10,23 +10,26 @@ export const signUpUser = async (request, response) => {
   try {
     //* now below varible salt line of code is optional instead of we pass second argument 10 in bcrypt.hash() function which create hashed password
     // const salt = await bcrypt.genSalt();
-    const hashhedpassword = await bcrypt.hash(request.body.password, 10);
+    console.log("password field ", request.body.password);
+    console.log("password field ", request.body.name);
+    
+    const hashedPassword = await bcrypt.hash(request.body.password, 10);
 
     //* userObject
     const userData = {
       name: request.body.name,
       email: request.body.email,
-      password: hashhedpassword,
+      password: hashedPassword,
     };
+    console.log(userData);
 
     // const userData = request.body;
     const newUser = new user(userData);
-
     //* save userObject in mongo db with save()method
     await newUser.save();
     return response.status(200).json({ msg: " user sign up  successfully " });
   } catch (error) {
-    console.log(error);
+    console.log("sign up error ", error);
     return response.status(500).json({ msg: " Error while sign up" });
   }
 };
