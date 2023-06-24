@@ -10,9 +10,6 @@ export const signUpUser = async (request, response) => {
   try {
     //* now below varible salt line of code is optional instead of we pass second argument 10 in bcrypt.hash() function which create hashed password
     // const salt = await bcrypt.genSalt();
-    console.log("password field ", request.body.password);
-    console.log("password field ", request.body.name);
-    
     const hashedPassword = await bcrypt.hash(request.body.password, 10);
 
     //* userObject
@@ -21,7 +18,6 @@ export const signUpUser = async (request, response) => {
       email: request.body.email,
       password: hashedPassword,
     };
-    console.log(userData);
 
     // const userData = request.body;
     const newUser = new user(userData);
@@ -38,9 +34,10 @@ export const signUpUser = async (request, response) => {
 
 export const loginUser = async (request, response) => {
   //* user.findOne() method user come from userControler
-  console.log("*******", request.body.userEmail);
+  if (request.body.userPassword == "" || request.body.email == "") {
+    return response.status(401).json({ msg: "invalid  credentials" });
+  }
   let matchedUser = await user.findOne({ email: request.body.userEmail });
-  console.log(matchedUser, "matchedUser");
   if (!matchedUser) {
     return response
       .status(400)
@@ -65,7 +62,6 @@ export const loginUser = async (request, response) => {
         matchedUser.toJSON(),
         process.env.REFRESH_SECRET_KEY
       );
-      console.log(accessToken, "password", refreshToken);
       let newToken = new token({ token: refreshToken });
 
       //* refreshToken is save in database with .save() method  for hit next access token

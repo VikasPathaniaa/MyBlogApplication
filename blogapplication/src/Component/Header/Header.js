@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AppBar, Typography, Toolbar, styled } from "@mui/material";
 import logo from "../../assets/blog.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Component = styled(AppBar)`
   background: #fdfdfd;
@@ -52,19 +52,21 @@ const Button = styled(Typography)`
   cursor: pointer;
 `;
 
+//* logout Handle
 
-//* logout Handle 
-
-const logOutHandle = ()=>{
-  localStorage.clear()
-}
 const Header = () => {
+  const navigate = useNavigate();
+  const logOutHandle = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
   return (
     <Component>
       <SubContainer>
         <Toolbar>
-          <Link to="/">  
-          <img src={logo} alt="logo" height={"40px"} /> </Link>
+          <Link to="/">
+            <img src={logo} alt="logo" height={"40px"} />{" "}
+          </Link>
         </Toolbar>
         <Links>
           <Link to="/">Home</Link>

@@ -60,7 +60,8 @@ const CreatePost = () => {
     description: "",
     userName: "",
     picture: "",
-    date: new Date(),
+    categories:"",
+    createdDate: new Date(),
   });
   const [file, setFile] = useState("");
   const location = useLocation();
@@ -81,7 +82,7 @@ const CreatePost = () => {
       }
     };
     getFile();
-    blogData.category = location?.search.split("=")[1] || "All";
+    blogData.categories = location?.search.split("=")[1] || "All";
     blogData.userName = account.name;
   }, [file, blogData, url]);
 
@@ -96,8 +97,10 @@ const CreatePost = () => {
   };
 
   const postSubmit = async () => {
+    console.log(blogData)
     const response = await API.postBlog(blogData);
-    if (response.success) {
+    console.log(response , "response ")
+    if (response.isSuccess) {
       navigate("/");
     }
   };
