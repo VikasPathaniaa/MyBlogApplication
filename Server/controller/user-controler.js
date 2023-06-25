@@ -18,8 +18,7 @@ export const signUpUser = async (request, response) => {
       email: request.body.email,
       password: hashedPassword,
     };
-
-    // const userData = request.body;
+    
     const newUser = new user(userData);
     //* save userObject in mongo db with save()method
     await newUser.save();
@@ -55,7 +54,7 @@ export const loginUser = async (request, response) => {
         matchedUser.toJSON(),
         process.env.ACCESS_SECRET_KEY,
         {
-          expiresIn: "15m",
+          expiresIn: "30m",
         }
       );
       let refreshToken = jwt.sign(
