@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_NOTIFICATION_MESSAGE, serviceUrl } from "../Constant/config";
-import { getAuthorized } from "../utils/common-utils";
+import { getAuthorized , getType } from "../utils/common-utils";
 
 const API_URL = "http://localhost:8000";
 
@@ -14,6 +14,12 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   function (config) {
+    if(config.TYPE.params){
+      config.params = config.TYPE.params;
+    }else if(config.TYPE.query){
+      config.url = config.url + "/" + config.TYPE.query
+
+    }
     return config;
   },
   function (error) {
@@ -77,11 +83,13 @@ for (const [key, value] of Object.entries(serviceUrl)) {
       ? { "Content-Type": "multipart/form-data" }
       : { "Content-Type": "application/json" };
 
+      console.log("value " , value , "body" , body)
     return axiosInstance({
       method: value.method,
       url: value.url,
       data: body,
       headers: { ...headers, authorization: getAuthorized() },
+      TYPE:getType(value , body),
       responseType: value.responseType,
       onUploadProgress: function (progressEvent) {
         if (showuploadprogress) {

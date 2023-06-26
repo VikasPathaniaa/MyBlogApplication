@@ -60,15 +60,16 @@ const CreatePost = () => {
     description: "",
     userName: "",
     picture: "",
-    categories:"",
+    categories: "",
     createdDate: new Date(),
   });
   const [file, setFile] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
-  // const category = location?.search.split("=")[1];
   const { account } = useContext(DataContext);
   const url = blogData?.picture ? blogData?.picture : "/assets/addBlogImg.jpeg";
+  blogData.categories = location?.search.split("=")[1] || "All";
+  blogData.userName = account.name;
   console.log(blogData);
   useEffect(() => {
     const getFile = async () => {
@@ -77,14 +78,11 @@ const CreatePost = () => {
         data.append("fileName", file.name);
         data.append("file", file);
         let response = await API.uploadFile(data);
-        console.log(response.data, "********");
         blogData.picture = await response.data;
       }
     };
     getFile();
-    blogData.categories = location?.search.split("=")[1] || "All";
-    blogData.userName = account.name;
-  }, [file, blogData, url]);
+  }, [file, , url]);
 
   //* below function for handle input fileds
   const handleData = (event) => {
@@ -97,9 +95,8 @@ const CreatePost = () => {
   };
 
   const postSubmit = async () => {
-    console.log(blogData)
     const response = await API.postBlog(blogData);
-    console.log(response , "response ")
+    console.log(response, "response ");
     if (response.isSuccess) {
       navigate("/");
     }

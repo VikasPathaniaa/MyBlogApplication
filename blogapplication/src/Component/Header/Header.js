@@ -36,7 +36,7 @@ const Links = styled(Toolbar)`
   }
 
   & a:hover::before {
-    transform: scaleX(1); /* Scale to full width on hover */
+    transform: scaleX(1); 
   }
 `;
 

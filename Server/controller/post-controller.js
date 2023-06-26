@@ -27,3 +27,13 @@ export const getAllBlogs = async (request, response) => {
     return response.status(500).json(error.message);
   }
 };
+
+export const getBlogById = async (request, response) => {
+  try {
+    let id = await request.params.id;
+    let data = await Post.findById(id);
+    return response.status(200).json(data);
+  } catch (error) {
+    return response.status(500).json(error.message);
+  }
+};
