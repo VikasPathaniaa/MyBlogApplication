@@ -13,6 +13,13 @@ import Header from "./Component/Header/Header";
 import CreatePost from "./Pages/CreatePost/CreatePost";
 import DetailsView from "./Pages/Details/DetailsView";
 import PageNotFound from "./Component/PageNotFound/PageNotFound";
+import UpdateBlog from "./Pages/UpdateBlog/UpdateBlog";
+import Footer from "./Component/Footer/Footer";
+import About from "./Component/About/About";
+import Contact from "./Component/Contact/Contact";
+import {Provider} from "react-redux";
+import {store} from "./Store/store"
+import BlogPage from "./Pages/BlogPage/BlogPage";
 
 const PrivateRoute = () => {
   const isAuthenticated = localStorage.getItem("accessToken");
@@ -21,6 +28,7 @@ const PrivateRoute = () => {
       <>
         <Header />
         <Outlet />
+        <Footer />
       </>
     );
   } else {
@@ -30,6 +38,7 @@ const PrivateRoute = () => {
 const App = () => {
   return (
     <>
+    <Provider store={store}>
       <DataProvider>
         <BrowserRouter>
           <Routes>
@@ -43,12 +52,28 @@ const App = () => {
             <Route path="/details/:id" element={<PrivateRoute />}>
               <Route path="/details/:id" element={<DetailsView />} />
             </Route>
+            <Route path="/details/:id" element={<PrivateRoute />}>
+              <Route path="/details/:id" element={<DetailsView />} />
+            </Route>
+            <Route path="/update-blog/:id" element={<PrivateRoute />}>
+              <Route path="/update-blog/:id" element={<UpdateBlog />} />
+            </Route>
+            <Route path="/about" element={<PrivateRoute />}>
+              <Route path="/about" element={<About />} />
+            </Route>
+            <Route path="/contact" element={<PrivateRoute />}>
+              <Route path="/contact" element={<Contact />} />
+            </Route>
+            <Route path="/blogpage" element={<PrivateRoute />}>
+              <Route path="/blogpage" element={<BlogPage />} />
+            </Route>
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>
 
         {/* <Login/> */}
       </DataProvider>
+      </Provider>
     </>
   );
 };

@@ -10,11 +10,11 @@ const Home = () => {
   return (
     <>
       <Banner />
-      <Grid container mt={5} >
+      <Grid container mt={5}  >
         <Grid item   lg={2} sm={4} xs={12} >
         <Category />
         </Grid>
-        <Grid container item lg={10} sm={8}   xs={12}>
+        <Grid container item lg={10} sm={8}   xs={12} gap={10} p={2}>
           <Post/>
         </Grid>
       </Grid>

@@ -28,4 +28,9 @@ export const serviceUrl = {
   postBlog: { url: "/createpost", method: "POST" },
   getAllBlogs: { url: "/getBlogs", method: "GET", params: true },
   getBlogById: { url: "/getBlogsById", method: "GET", query: true },
+  updateBlogById: { url: "/update", method: "PUT", query: true },
+  deleteBlog : {url: "/delete" , method:"DELETE" , query:true},
+  postComment :{url : "/postNewComment" , method:"POST" },
+  getCommentsData : {url: "/getAllComents" , method:"GET" , query:true}
 };
+ 

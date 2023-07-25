@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AppBar, Typography, Toolbar, styled } from "@mui/material";
 import logo from "../../assets/blog.jpg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 
 const Component = styled(AppBar)`
   background: #fdfdfd;
@@ -19,7 +19,7 @@ const Links = styled(Toolbar)`
   & a {
     color: black;
     text-decoration: none;
-    position: relative; /* Added */
+    position: relative;
   }
 
   & a::before {
@@ -30,13 +30,13 @@ const Links = styled(Toolbar)`
     width: 100%;
     height: 2px;
     background: var(--primary-color);
-    transform: scaleX(0); /* Initial scale of 0 */
+    transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.3s ease-in-out;
   }
 
   & a:hover::before {
-    transform: scaleX(1); 
+    transform: scaleX(1);
   }
 `;
 
@@ -69,10 +69,30 @@ const Header = () => {
           </Link>
         </Toolbar>
         <Links>
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-          <Link to="/contact">Contact</Link>
-          <Link to="/blog">Blog</Link>
+          <NavLink
+            className={(navStyle) => (navStyle.isActive ? "linksActive" : "")}
+            to="/"
+          >
+            Home
+          </NavLink>
+          <NavLink
+            className={(navStyle) => (navStyle.isActive ? "linksActive" : "")}
+            to="/about"
+          >
+            About
+          </NavLink>
+          <NavLink
+            className={(navStyle) => (navStyle.isActive ? "linksActive" : "")}
+            to="/contact"
+          >
+            Contact
+          </NavLink>
+          <NavLink
+            className={(navStyle) => (navStyle.isActive ? "linksActive" : "")}
+            to="/blogpage"
+          >
+            Blog
+          </NavLink>
         </Links>
         <Toolbar>
           <Button onClick={logOutHandle}>Logout</Button>

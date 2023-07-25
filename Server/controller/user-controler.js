@@ -18,7 +18,7 @@ export const signUpUser = async (request, response) => {
       email: request.body.email,
       password: hashedPassword,
     };
-    
+
     const newUser = new user(userData);
     //* save userObject in mongo db with save()method
     await newUser.save();

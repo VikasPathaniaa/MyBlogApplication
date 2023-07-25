@@ -1,19 +1,22 @@
 import React, { useEffect, useState, useContext } from "react";
 import { API } from "../../Service/api";
-import { useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { DataContext } from "../../Context/DataProvider";
 import styled from "@emotion/styled";
+import Comments from "../../Component/Comments/Comment";
 
 const DetailsView = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState({});
+
   let { id } = useParams();
-  const { account } = useContext(DataContext);
-  
+  const navigate = useNavigate();
+
+  const authorName = localStorage.getItem("name");
+
   const url = data?.picture ? data?.picture : "/assets/lake.jpg";
-  console.log(data);
+
   useEffect(() => {
     let fetchData = async () => {
       let response = await API.getBlogById(id);
@@ -23,30 +26,41 @@ const DetailsView = () => {
     };
     fetchData();
   }, []);
+
+  const deleteHandle = async () => {
+    let response = await API.deleteBlog(data?._id);
+    if (response?.isSuccess) {
+      navigate("/");
+    }
+  };
+
   return (
     <Box>
       <Container>
         <Image src={url} alt="Image not found" />
         <Icon>
-          {account?.name == data?.userName && (
+          {authorName == data?.userName && (
             <>
-              <EditIcon color="primary" /> <DeleteIcon color="error" />
+              <Link to={`/update-blog/${id}`}>
+                <EditIcon color="primary" />
+              </Link>
+
+              <DeleteIcon color="error" onClick={deleteHandle} />
             </>
           )}
         </Icon>
         <Heading>{data?.title} </Heading>
         <Author>
-          <Typography style={{display:"flex"}}>
+          <Typography style={{ display: "flex" }}>
             Author:
             <Box container="Span" style={{ fontWeight: 600 }}>
               {data?.userName}
             </Box>
           </Typography>
-          <Typography>
-            {new Date(data?.createdDate).toDateString()}{" "}
-          </Typography>
+          <Typography>{new Date(data?.createdDate).toDateString()} </Typography>
         </Author>
         <Typography>{data?.description}</Typography>
+        <Comments post={data} />
       </Container>
     </Box>
   );
@@ -68,6 +82,14 @@ const Icon = styled(Typography)`
   display: flex;
   float: right;
 
+  & > a > svg {
+    border-radius: 26px;
+    padding: 8px;
+    box-shadow: 0px 2px 2px 2px gray;
+    transform: scale(0.8);
+    cursor: pointer;
+    transition: transform 2s;
+  }
   & > svg {
     border-radius: 26px;
     padding: 8px;
@@ -88,9 +110,7 @@ const Heading = styled(Typography)`
   color:"black
   `;
 const Author = styled(Box)`
-display:flex;
-justify-content:space-between;
-margin-top:18px
-
-
-`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+`;

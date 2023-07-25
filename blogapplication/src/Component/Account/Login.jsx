@@ -52,8 +52,7 @@ const Image = styled("img")({
   transform: "scale(0.5)",
 });
 
-
-//* Component Start from here 
+//* Component Start from here
 const Login = () => {
   const [form, setForm] = useState("login");
   const [signupFields, setSignupFields] = useState({
@@ -91,7 +90,6 @@ const Login = () => {
     }));
   };
 
-  
   //* function for signup data  submition\
   const submitHandel = async () => {
     let response = await API.userSignup(signupFields);
@@ -123,11 +121,15 @@ const Login = () => {
   const loginUser = async () => {
     let response = await API.userLogin(loginFields);
     if (response.isSuccess) {
-      localStorage.setItem("accessToken", `Bearer ${response.data.accessToken}`);
+      localStorage.setItem(
+        "accessToken",
+        `Bearer ${response.data.accessToken}`
+      );
       localStorage.setItem(
         "refreshToken",
         `Bearer ${response.data.accessToken}`
       );
+      localStorage.setItem("name", response.data.name);
       setAccount({ email: response.data.email, name: response.data.name });
       navigate("/");
     } else {
@@ -140,7 +142,7 @@ const Login = () => {
     <Container>
       <Image src={logo} alt="logo is not found"></Image>
 
-      {form == "login" &&  (
+      {form == "login" && (
         <Box>
           <Inputfield
             changeHandel={handleLoginChange}
@@ -163,9 +165,8 @@ const Login = () => {
             Don't have an account Sign up
           </SignupButton>
         </Box>
-      ) }
-      {
-        form == "SignUp" &&  (
+      )}
+      {form == "SignUp" && (
         <Box>
           <Inputfield
             placeholder="enter your name"

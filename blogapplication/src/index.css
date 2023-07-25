@@ -17,7 +17,21 @@ code {
   --primary-color: linear-gradient(to right, #c0c0aa, #1cefff);
   --secondary-color: linear-gradient(to right, #000000, #434343); ;
   --accent-color: #0000FF;
+  --color-text: #616161;
+  --color-text-btn: #ffffff;
+  --card1-gradient-color1: #f12711;
+  --card1-gradient-color2: #f5af19;
+  --card2-gradient-color1: #7F00FF;
+  --card2-gradient-color2: #E100FF;
+  --card3-gradient-color1: #3f2b96;
+  --card3-gradient-color2: #a8c0ff;
+  --card4-gradient-color1: #11998e;
+  --card4-gradient-color2: #38ef7d;
 }
 a{
   text-decoration: none ;
+}
+
+.linksActive{
+  font-weight: 600;
 }

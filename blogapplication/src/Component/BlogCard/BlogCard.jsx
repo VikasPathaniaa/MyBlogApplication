@@ -4,16 +4,17 @@ import { addElipsis } from "../../utils/common-utils";
 
 const BlogCard = (props) => {
   const { title, description, userName, picture, categories, date } = props;
-  console.log(picture, "picture");
+
+  const url = picture ? picture : "/assets/addBlogImg.jpeg";
   return (
     <Container>
-      <Image src={picture} alt="Blog image Not found" />
+      <Image src={url} alt="Blog image Not found" />
       <SubContainer>
         <Category>{categories}</Category>
         <Title>{title}</Title>
         <Description>{addElipsis(description, 90)}</Description>
         <Author>{userName}</Author>
-        <Typography>{date}</Typography>
+        <Typography>{new Date(date).toDateString()}</Typography>
       </SubContainer>
     </Container>
   );
@@ -22,7 +23,7 @@ const BlogCard = (props) => {
 export default BlogCard;
 
 const Container = styled(Box)`
-  margin: 10px;
+  margin-top: 65px;
   height: 350px;
 `;
 
